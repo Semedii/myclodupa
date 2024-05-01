@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycloudpa/components/menu_item_tile.dart';
-import 'package:mycloudpa/cubits/cubit/menu_cubit.dart';
+import 'package:mycloudpa/cubits/menu/menu_cubit.dart';
 import 'package:mycloudpa/repositories/menu_repository.dart';
 
 class MenuListScreen extends StatelessWidget {
