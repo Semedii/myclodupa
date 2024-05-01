@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycloudpa/cubits/addToCart/add_to_cart_cubit.dart';
 import 'package:mycloudpa/model/menu_item.dart';
+import 'package:mycloudpa/screens/cart_list_screen.dart';
 
 class AddToCartScreen extends StatelessWidget {
   final MenuItem menuItem;
@@ -13,6 +14,17 @@ class AddToCartScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add to Cart'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CartScreen(cartItems: [])));
+            },
+            icon: Icon(Icons.shopping_cart),
+          ),
+        ],
       ),
       body: BlocProvider(
         create: (context) => AddToCartCubit(menuItem),

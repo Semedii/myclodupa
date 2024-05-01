@@ -1,16 +1,14 @@
-// part of 'cart_cubit.dart';
+part of 'cart_cubit.dart';
 
-// @immutable
-// sealed class CartState {}
+@immutable
+sealed class CartState {}
 
-// final class CartInitial extends CartState {
-//   final Map<List<MenuItem>, int> menuList;
+final class CartInitial extends CartState {
+  final List<Map<MenuItem, int>>? cartItems;
 
-//   CartInitial({required this.menuList});
+  CartInitial({this.cartItems});
 
-//   CartInitial copyWith(Map<List<MenuItem>, int>}) {
-//     return CartInitial(menuList: menuList ?? this.menuList);
-//   }
-// }
-
-// final class CartLoading extends CartState{}
+  CartInitial copyWith({List<Map<MenuItem, int>>? cartItems}) {
+    return CartInitial(cartItems: cartItems ?? this.cartItems);
+  }
+}
