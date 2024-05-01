@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mycloudpa/components/cart_icon.dart';
 import 'package:mycloudpa/components/menu_item_tile.dart';
-import 'package:mycloudpa/cubits/cart/cart_cubit.dart';
 import 'package:mycloudpa/cubits/menu/menu_cubit.dart';
 import 'package:mycloudpa/repositories/menu_repository.dart';
-import 'package:mycloudpa/screens/cart_list_screen.dart';
-import 'package:mycloudpa/service_locator.dart';
 
 class MenuListScreen extends StatelessWidget {
   MenuListScreen({super.key});
@@ -16,8 +14,8 @@ class MenuListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MyCloudPA Restaurant'),
-        actions: [_buildCartIcon(context)],
+        title: const Text('Semedy Restaurant'),
+        actions: const [CartIcon()],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,31 +23,7 @@ class MenuListScreen extends StatelessWidget {
           _buildDeliveryMessage(),
           const SizedBox(height: 16),
           _buildAddressField(),
-          Expanded(
-            child: BlocProvider(
-              create: (context) => _createCubit(),
-              child: BlocBuilder<MenuCubit, MenuState>(
-                builder: (context, state) {
-                  if (state is MenuInitial) {
-                    //if state is MenuInitial again for any reason we have to fetch the menu list
-                    //by initializing the page again
-                    BlocProvider.of<MenuCubit>(context).initPage();
-                  } else {
-                    if (state is MenuIdle) {
-                      return ListView.builder(
-                        itemCount: state.menuList.length,
-                        itemBuilder: (context, index) {
-                          final item = state.menuList[index];
-                          return MenuItemTile(item: item);
-                        },
-                      );
-                    }
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                },
-              ),
-            ),
-          ),
+          _buildMenuList(),
         ],
       ),
     );
@@ -89,41 +63,32 @@ class MenuListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCartIcon(BuildContext context) {
-    return BlocBuilder<CartCubit, CartState>(
-      bloc: serviceLocator.get<CartCubit>(),
-      builder: (context, state) {
-        // Get the number of items in the cart
-        int itemCount = (state as CartInitial).cartItems?.length ?? 0;
-
-        return Stack(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CartScreen()));
-              },
-              icon: Icon(Icons.shopping_cart),
-            ),
-            if (itemCount > 0)
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                  child: Text(
-                    itemCount.toString(),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-          ],
-        );
-      },
+  Expanded _buildMenuList() {
+    return Expanded(
+      child: BlocProvider(
+        create: (context) => _createCubit(),
+        child: BlocBuilder<MenuCubit, MenuState>(
+          builder: (context, state) {
+            if (state is MenuInitial) {
+              //if state is MenuInitial again for any reason we have to fetch the menu list
+              //by initializing the page again
+              BlocProvider.of<MenuCubit>(context).initPage();
+            } else {
+              if (state is MenuIdle) {
+                return ListView.builder(
+                  itemCount: state.menuList.length,
+                  itemBuilder: (context, index) {
+                    final item = state.menuList[index];
+                    return MenuItemTile(item: item);
+                  },
+                );
+              }
+            }
+            //returns loading indicator
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
+      ),
     );
   }
 
