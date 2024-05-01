@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycloudpa/model/menu_item.dart';
+import 'package:mycloudpa/screens/add_to_cart_screen.dart';
 
 class MenuItemTile extends StatelessWidget {
   final MenuItem item;
@@ -51,6 +52,7 @@ class MenuItemTile extends StatelessWidget {
           ),
         ),
         onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> AddToCartScreen(menuItem: item)));
           // Handle tapping on the menu item (navigation or adding to cart)
         },
       ),
