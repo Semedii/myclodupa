@@ -166,7 +166,7 @@ class AddToCartScreen extends StatelessWidget {
         onPressed: () {
           serviceLocator
               .get<CartCubit>()
-              .AddToCart(state.menuItem, state.quantity);
+              .addToCart(state.menuItem, state.quantity);
         });
   }
 }

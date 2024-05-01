@@ -8,13 +8,12 @@ part 'cart_state.dart';
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartInitial());
 
-  AddToCart(MenuItem item, int quantity){
-    var currentState = state as CartInitial;
-    var updatedCartItems = List<Map<MenuItem, int>>.from(currentState.cartItems ?? []);
+  void addToCart(MenuItem item, int quantity){
+    var lastState = state as CartInitial;
+    var updatedCartItems = List<Map<MenuItem, int>>.from(lastState.cartItems ?? []);
     var newItem = {item: quantity};
     updatedCartItems.add(newItem);
-    emit(currentState.copyWith(cartItems: updatedCartItems));
-    print("aaaa ${updatedCartItems.length} ${currentState.cartItems?.length}");
+    emit(lastState.copyWith(cartItems: updatedCartItems));
   }
 
   void onUsernameChanged(String? username){
