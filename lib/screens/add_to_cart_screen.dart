@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycloudpa/cubits/addToCart/add_to_cart_cubit.dart';
+import 'package:mycloudpa/cubits/cart/cart_cubit.dart';
 import 'package:mycloudpa/model/menu_item.dart';
 import 'package:mycloudpa/screens/cart_list_screen.dart';
+import 'package:mycloudpa/service_locator.dart';
 
 class AddToCartScreen extends StatelessWidget {
   final MenuItem menuItem;
@@ -15,15 +17,7 @@ class AddToCartScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Add to Cart'),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CartScreen(cartItems: [])));
-            },
-            icon: Icon(Icons.shopping_cart),
-          ),
+          _buildCartIcon(context),
         ],
       ),
       body: BlocProvider(
@@ -51,6 +45,45 @@ class AddToCartScreen extends StatelessWidget {
       ),
     );
   }
+
+Widget _buildCartIcon(BuildContext context) {
+  return BlocBuilder<CartCubit, CartState>(
+    bloc: serviceLocator.get<CartCubit>(),
+    builder: (context, state) {
+      // Get the number of items in the cart
+      int itemCount = (state as CartInitial).cartItems?.length ?? 0;
+
+      return Stack(
+        children: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => CartScreen()));
+            },
+            icon: Icon(Icons.shopping_cart),
+          ),
+          if (itemCount > 0)
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Container(
+                padding: EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                ),
+                child: Text(
+                  itemCount.toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+        ],
+      );
+    },
+  );
+}
+
 
   Text _buildMenuName() {
     return Text(
@@ -127,7 +160,9 @@ class AddToCartScreen extends StatelessWidget {
   ElevatedButton _buildAddToCartButton(AddToCartInitial state) {
     return ElevatedButton(
       onPressed: () {
-        // Implement add to cart functionality here
+        serviceLocator
+            .get<CartCubit>()
+            .AddToCart(state.menuItem, state.quantity);
       },
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),

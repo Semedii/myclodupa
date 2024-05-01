@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mycloudpa/screens/menu_list_screen.dart';
+import 'package:mycloudpa/service_locator.dart';
 
 void main() {
+  setupDependencies();
   runApp(const MyApp());
 }
 
