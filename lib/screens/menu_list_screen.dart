@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycloudpa/components/menu_item_tile.dart';
+import 'package:mycloudpa/cubits/cart/cart_cubit.dart';
 import 'package:mycloudpa/cubits/menu/menu_cubit.dart';
 import 'package:mycloudpa/repositories/menu_repository.dart';
+import 'package:mycloudpa/screens/cart_list_screen.dart';
+import 'package:mycloudpa/service_locator.dart';
 
 class MenuListScreen extends StatelessWidget {
   MenuListScreen({super.key});
@@ -14,6 +17,7 @@ class MenuListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyCloudPA Restaurant'),
+        actions: [_buildCartIcon(context)],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,6 +86,44 @@ class MenuListScreen extends StatelessWidget {
           color: Colors.grey,
         ),
       ),
+    );
+  }
+
+  Widget _buildCartIcon(BuildContext context) {
+    return BlocBuilder<CartCubit, CartState>(
+      bloc: serviceLocator.get<CartCubit>(),
+      builder: (context, state) {
+        // Get the number of items in the cart
+        int itemCount = (state as CartInitial).cartItems?.length ?? 0;
+
+        return Stack(
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CartScreen()));
+              },
+              icon: Icon(Icons.shopping_cart),
+            ),
+            if (itemCount > 0)
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red,
+                  ),
+                  child: Text(
+                    itemCount.toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 
