@@ -1,6 +1,5 @@
 part of 'menu_cubit.dart';
 
-@immutable
 sealed class MenuState {}
 
 final class MenuInitial extends MenuState{}
@@ -10,3 +9,5 @@ final class MenuIdle extends MenuState {
 
   MenuIdle({required this.menuList});
 }
+
+final class MenuLoading extends MenuState{}

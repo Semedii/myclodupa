@@ -1,5 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycloudpa/model/menu_item.dart';
 import 'package:mycloudpa/repositories/menu_repository.dart';
 
@@ -10,6 +9,9 @@ class MenuCubit extends Cubit<MenuState> {
   MenuCubit(this.menuRepository) : super(MenuInitial());
 
   initPage() async {
+    emit(MenuLoading());
+    // added this to mimick the actual server response time
+    await Future.delayed(const Duration(seconds: 2));
     List<MenuItem> menuList = await menuRepository.fetchMenu();
     emit(MenuIdle(menuList: menuList));
   }
