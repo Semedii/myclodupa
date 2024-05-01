@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mycloudpa/components/app_button.dart';
 import 'package:mycloudpa/cubits/addToCart/add_to_cart_cubit.dart';
 import 'package:mycloudpa/cubits/cart/cart_cubit.dart';
 import 'package:mycloudpa/model/menu_item.dart';
@@ -46,44 +47,46 @@ class AddToCartScreen extends StatelessWidget {
     );
   }
 
-Widget _buildCartIcon(BuildContext context) {
-  return BlocBuilder<CartCubit, CartState>(
-    bloc: serviceLocator.get<CartCubit>(),
-    builder: (context, state) {
-      // Get the number of items in the cart
-      int itemCount = (state as CartInitial).cartItems?.length ?? 0;
+  Widget _buildCartIcon(BuildContext context) {
+    return BlocBuilder<CartCubit, CartState>(
+      bloc: serviceLocator.get<CartCubit>(),
+      builder: (context, state) {
+        // Get the number of items in the cart
+        int itemCount = (state as CartInitial).cartItems?.length ?? 0;
 
-      return Stack(
-        children: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => CartScreen()));
-            },
-            icon: Icon(Icons.shopping_cart),
-          ),
-          if (itemCount > 0)
-            Positioned(
-              right: 0,
-              top: 0,
-              child: Container(
-                padding: EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
-                ),
-                child: Text(
-                  itemCount.toString(),
-                  style: TextStyle(color: Colors.white),
+        return Stack(
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartScreen(),
+                    ));
+              },
+              icon: const Icon(Icons.shopping_cart),
+            ),
+            if (itemCount > 0)
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red,
+                  ),
+                  child: Text(
+                    itemCount.toString(),
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-        ],
-      );
-    },
-  );
-}
-
+          ],
+        );
+      },
+    );
+  }
 
   Text _buildMenuName() {
     return Text(
@@ -157,24 +160,13 @@ Widget _buildCartIcon(BuildContext context) {
     );
   }
 
-  ElevatedButton _buildAddToCartButton(AddToCartInitial state) {
-    return ElevatedButton(
-      onPressed: () {
-        serviceLocator
-            .get<CartCubit>()
-            .AddToCart(state.menuItem, state.quantity);
-      },
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-      ),
-      child: Center(
-        child: Text(
-          'Add (${state.quantity}) to Cart',
-          style: const TextStyle(
-            fontSize: 18,
-          ),
-        ),
-      ),
-    );
+  AppButton _buildAddToCartButton(AddToCartInitial state) {
+    return AppButton(
+        title: 'Add (${state.quantity}) to Cart',
+        onPressed: () {
+          serviceLocator
+              .get<CartCubit>()
+              .AddToCart(state.menuItem, state.quantity);
+        });
   }
 }

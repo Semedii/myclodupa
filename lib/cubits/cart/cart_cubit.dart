@@ -16,4 +16,8 @@ class CartCubit extends Cubit<CartState> {
     emit(currentState.copyWith(cartItems: updatedCartItems));
     print("aaaa ${updatedCartItems.length} ${currentState.cartItems?.length}");
   }
+
+  void onUsernameChanged(String? username){
+     emit((state as CartInitial).copyWith(username: username));
+  }
 }
