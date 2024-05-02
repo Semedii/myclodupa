@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycloudpa/components/app_button.dart';
 import 'package:mycloudpa/cubits/cart/cart_cubit.dart';
+import 'package:mycloudpa/screens/menu_list_screen.dart';
 import 'package:mycloudpa/service_locator.dart';
 
 class CartScreen extends StatelessWidget {
@@ -24,7 +25,7 @@ class CartScreen extends StatelessWidget {
                 _buildCartItemsList(state),
                 _buildUsernameField(context, state),
                 const SizedBox(height: 20),
-                _buildPayButton(state),
+                _buildPayButton(context, state),
               ],
             ),
           );
@@ -72,10 +73,17 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  AppButton _buildPayButton(CartInitial state) {
+  AppButton _buildPayButton(BuildContext context, CartInitial state) {
     bool isDisabled = state.cartItems.isEmpty ||
         state.username == null ||
         state.username!.isEmpty;
-    return AppButton(title: "Pay", onPressed: isDisabled ? null : () {});
+    return AppButton(
+        title: "Pay",
+        onPressed: isDisabled
+            ? null
+            : () {
+              serviceLocator.get<CartCubit>().onPayButtonPressed();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MenuListScreen()));
+              });
   }
 }
