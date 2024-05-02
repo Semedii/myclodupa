@@ -58,7 +58,7 @@ class AddToCartScreen extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const CartScreen(),

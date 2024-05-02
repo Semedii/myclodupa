@@ -46,15 +46,16 @@ class CartCubit extends Cubit<CartState> {
     emit(lastState.copyWith(cartItems: updatedCartItems));
   }
 
-    void deccrementQuantity(MenuItem item) {
+  void deccrementQuantity(MenuItem item) {
     var lastState = state as CartInitial;
     var updatedCartItems = List<CartItem>.from(lastState.cartItems);
     var existingItemIndex =
         updatedCartItems.indexWhere((cartItem) => cartItem.menuItem == item);
+    if (updatedCartItems[existingItemIndex].quantity > 1) {
+      updatedCartItems[existingItemIndex].quantity--;
 
-    updatedCartItems[existingItemIndex].quantity--;
-
-    emit(lastState.copyWith(cartItems: updatedCartItems));
+      emit(lastState.copyWith(cartItems: updatedCartItems));
+    }
   }
 
   void onUsernameChanged(String? username) {
