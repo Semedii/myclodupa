@@ -22,9 +22,8 @@ class MenuItemTile extends StatelessWidget {
           height: 80,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            image: DecorationImage(
-              image: AssetImage(
-                  'assets/images/${item.id}.jpg'), // Assuming you have images named after the item IDs
+            image: const DecorationImage(
+              image: AssetImage('assets/images/chicken.jpeg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -52,7 +51,10 @@ class MenuItemTile extends StatelessWidget {
           ),
         ),
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> AddToCartScreen(menuItem: item)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AddToCartScreen(menuItem: item)));
           // Handle tapping on the menu item (navigation or adding to cart)
         },
       ),
