@@ -42,13 +42,19 @@ class CartScreen extends StatelessWidget {
           return ListTile(
             title: Text(item.keys.first.name),
             subtitle: Text('Quantity: ${item.values}'),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                serviceLocator.get<CartCubit>().removeFromCart(item);
+              },
+            ),
           );
         },
       ),
     );
   }
 
-  _buildUsernameField(BuildContext context, CartInitial state) {
+ TextFormField _buildUsernameField(BuildContext context, CartInitial state) {
     return TextFormField(
       initialValue: state.username,
       onChanged: serviceLocator.get<CartCubit>().onUsernameChanged,

@@ -52,7 +52,7 @@ class AddToCartScreen extends StatelessWidget {
       bloc: serviceLocator.get<CartCubit>(),
       builder: (context, state) {
         // Get the number of items in the cart
-        int itemCount = (state as CartInitial).cartItems?.length ?? 0;
+        int itemCount = (state as CartInitial).cartItems.length;
 
         return Stack(
           children: [

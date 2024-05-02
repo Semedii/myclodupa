@@ -16,6 +16,12 @@ class CartCubit extends Cubit<CartState> {
     emit(lastState.copyWith(cartItems: updatedCartItems));
   }
 
+void removeFromCart(Map<MenuItem, int> item) {
+  (state as CartInitial).cartItems.removeWhere((element) => element.keys.first == item.keys.first);
+  emit(state as CartInitial);
+}
+
+
   void onUsernameChanged(String? username){
      emit((state as CartInitial).copyWith(username: username));
   }
