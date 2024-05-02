@@ -45,15 +45,15 @@ class CartScreen extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(item.keys.first.name),
-                Text('Price: ${item.keys.first.price}'),
+                Text(item.menuItem.name),
+                Text('Price: ${item.menuItem.price}'),
               ],
             ),
-            subtitle: Text('Quantity: ${item.values}'),
+            subtitle: Text('Quantity: ${item.quantity}'),
             trailing: IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
-                serviceLocator.get<CartCubit>().removeFromCart(item);
+                serviceLocator.get<CartCubit>().removeFromCart(item.menuItem);
               },
             ),
           );

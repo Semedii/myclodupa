@@ -4,28 +4,25 @@ part of 'cart_cubit.dart';
 sealed class CartState {}
 
 final class CartInitial extends CartState {
-  final List<Map<MenuItem, int>> cartItems;
+  final List<CartItem> cartItems;
   final String? username;
-
-  CartInitial({this.cartItems= const [], this.username});
 
   double get totalPrice {
     double total = 0.0;
     for (var item in cartItems) {
-      item.forEach((menuItem, quantity) {
-        total += menuItem.price * quantity;
-      });
+      total += item.menuItem.price * item.quantity;
     }
     return total;
   }
 
+  CartInitial({required this.cartItems, this.username});
+
   CartInitial copyWith({
-    List<Map<MenuItem, int>>? cartItems,
+    List<CartItem>? cartItems,
     String? username,
   }) {
     return CartInitial(
-      cartItems: cartItems ?? this.cartItems,
-      username: username ?? this.username,
-    );
+        cartItems: cartItems ?? this.cartItems,
+        username: username ?? this.username);
   }
 }
