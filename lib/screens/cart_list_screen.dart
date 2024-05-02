@@ -26,7 +26,7 @@ class CartScreen extends StatelessWidget {
                 _buildCartItemsList(state),
                 _buildUsernameField(context, state),
                 const SizedBox(height: 20),
-                Text("Total Price ${state.totalPrice} "),
+                Text("Total Price ${state.totalPrice.toStringAsFixed(2)} "),
                 _buildPayButton(context, state),
               ],
             ),
