@@ -12,7 +12,8 @@ class CartCubit extends Cubit<CartState> {
   void addToCart(MenuItem item, int quantity) {
     var lastState = state as CartInitial;
     var updatedCartItems = List<CartItem>.from(lastState.cartItems);
-    var existingItemIndex = updatedCartItems.indexWhere((cartItem) => cartItem.menuItem == item);
+    var existingItemIndex =
+        updatedCartItems.indexWhere((cartItem) => cartItem.menuItem == item);
 
     if (existingItemIndex != -1) {
       // Item already exists in cart, update its quantity
@@ -32,6 +33,28 @@ class CartCubit extends Cubit<CartState> {
     updatedCartItems.removeWhere((cartItem) => cartItem.menuItem == item);
     emit(lastState.copyWith(cartItems: updatedCartItems));
     toastInfo("Removed from the cart");
+  }
+
+  void incrementQuantity(MenuItem item) {
+    var lastState = state as CartInitial;
+    var updatedCartItems = List<CartItem>.from(lastState.cartItems);
+    var existingItemIndex =
+        updatedCartItems.indexWhere((cartItem) => cartItem.menuItem == item);
+
+    updatedCartItems[existingItemIndex].quantity++;
+
+    emit(lastState.copyWith(cartItems: updatedCartItems));
+  }
+
+    void deccrementQuantity(MenuItem item) {
+    var lastState = state as CartInitial;
+    var updatedCartItems = List<CartItem>.from(lastState.cartItems);
+    var existingItemIndex =
+        updatedCartItems.indexWhere((cartItem) => cartItem.menuItem == item);
+
+    updatedCartItems[existingItemIndex].quantity--;
+
+    emit(lastState.copyWith(cartItems: updatedCartItems));
   }
 
   void onUsernameChanged(String? username) {

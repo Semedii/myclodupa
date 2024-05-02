@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mycloudpa/components/app_button.dart';
+import 'package:mycloudpa/components/cart_item_widget.dart';
 import 'package:mycloudpa/cubits/cart/cart_cubit.dart';
 import 'package:mycloudpa/screens/menu_list_screen.dart';
 import 'package:mycloudpa/service_locator.dart';
@@ -34,33 +35,29 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
+Expanded _buildCartItemsList(CartInitial state) {
+  return Expanded(
+    child: ListView.builder(
+      itemCount: state.cartItems.length,
+      itemBuilder: (BuildContext context, int index) {
+        final item = state.cartItems[index];
+        return CartItemWidget(
+          item: item,
+          onIncrement: () {
+            serviceLocator.get<CartCubit>().incrementQuantity(item.menuItem);
+          },
+          onDecrement: () {
+            serviceLocator.get<CartCubit>().deccrementQuantity(item.menuItem);
+          },
+          onRemove: () {
+            serviceLocator.get<CartCubit>().removeFromCart(item.menuItem);
+          },
+        );
+      },
+    ),
+  );
+}
 
-  Expanded _buildCartItemsList(CartInitial state) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: state.cartItems.length,
-        itemBuilder: (BuildContext context, int index) {
-          final item = state.cartItems[index];
-          return ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(item.menuItem.name),
-                Text('Price: ${item.menuItem.price}'),
-              ],
-            ),
-            subtitle: Text('Quantity: ${item.quantity}'),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                serviceLocator.get<CartCubit>().removeFromCart(item.menuItem);
-              },
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   Column _buildUsernameField(BuildContext context, CartInitial state) {
     return Column(
@@ -101,3 +98,4 @@ class CartScreen extends StatelessWidget {
               });
   }
 }
+
