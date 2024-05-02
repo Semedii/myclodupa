@@ -25,6 +25,7 @@ class CartScreen extends StatelessWidget {
                 _buildCartItemsList(state),
                 _buildUsernameField(context, state),
                 const SizedBox(height: 20),
+                Text("Total Price ${state.totalPrice} "),
                 _buildPayButton(context, state),
               ],
             ),
@@ -82,8 +83,9 @@ class CartScreen extends StatelessWidget {
         onPressed: isDisabled
             ? null
             : () {
-              serviceLocator.get<CartCubit>().onPayButtonPressed();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MenuListScreen()));
+                serviceLocator.get<CartCubit>().onPayButtonPressed();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => MenuListScreen()));
               });
   }
 }

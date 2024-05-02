@@ -9,6 +9,16 @@ final class CartInitial extends CartState {
 
   CartInitial({this.cartItems= const [], this.username});
 
+  double get totalPrice {
+    double total = 0.0;
+    for (var item in cartItems) {
+      item.forEach((menuItem, quantity) {
+        total += menuItem.price * quantity;
+      });
+    }
+    return total;
+  }
+
   CartInitial copyWith({
     List<Map<MenuItem, int>>? cartItems,
     String? username,
