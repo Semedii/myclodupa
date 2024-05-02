@@ -42,7 +42,13 @@ class CartScreen extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final item = state.cartItems[index];
           return ListTile(
-            title: Text(item.keys.first.name),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(item.keys.first.name),
+                Text('Price: ${item.keys.first.price}'),
+              ],
+            ),
             subtitle: Text('Quantity: ${item.values}'),
             trailing: IconButton(
               icon: const Icon(Icons.delete),
