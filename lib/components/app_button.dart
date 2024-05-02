@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
   final String title;
-  final Function() onPressed;
-  const AppButton({required this.title, required this.onPressed, super.key});
+  final Function()? onPressed;
+  const AppButton({required this.title,  this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {

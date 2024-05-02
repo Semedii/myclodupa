@@ -24,7 +24,7 @@ class CartScreen extends StatelessWidget {
                 _buildCartItemsList(state),
                 _buildUsernameField(context, state),
                 const SizedBox(height: 20),
-                _buildPayButton(),
+                _buildPayButton(state),
               ],
             ),
           );
@@ -54,7 +54,7 @@ class CartScreen extends StatelessWidget {
     );
   }
 
- TextFormField _buildUsernameField(BuildContext context, CartInitial state) {
+  TextFormField _buildUsernameField(BuildContext context, CartInitial state) {
     return TextFormField(
       initialValue: state.username,
       onChanged: serviceLocator.get<CartCubit>().onUsernameChanged,
@@ -72,7 +72,10 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  AppButton _buildPayButton() {
-    return AppButton(title: "Pay", onPressed: () => null);
+  AppButton _buildPayButton(CartInitial state) {
+    bool isDisabled = state.cartItems.isEmpty ||
+        state.username == null ||
+        state.username!.isEmpty;
+    return AppButton(title: "Pay", onPressed: isDisabled ? null : () {});
   }
 }
