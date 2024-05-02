@@ -10,7 +10,7 @@ class CartIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
-      bloc: BlocProvider.of<CartCubit>(context),
+      bloc: serviceLocator.get<CartCubit>(),
       builder: (context, state) {
         // it gets the number of the items in the cart and if it is null it will return 0
         int itemCount = (state as CartInitial).cartItems?.length ?? 0;

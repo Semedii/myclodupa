@@ -4,10 +4,10 @@ part of 'cart_cubit.dart';
 sealed class CartState {}
 
 final class CartInitial extends CartState {
-  final List<Map<MenuItem, int>>? cartItems;
+  final List<Map<MenuItem, int>> cartItems;
   final String? username;
 
-  CartInitial({this.cartItems, this.username});
+  CartInitial({this.cartItems= const [], this.username});
 
   CartInitial copyWith({
     List<Map<MenuItem, int>>? cartItems,

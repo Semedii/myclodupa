@@ -13,24 +13,22 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Cart'),
       ),
-      body: BlocProvider(
-        create: (context) => serviceLocator.get<CartCubit>(),
-        child: BlocBuilder<CartCubit, CartState>(
-          builder: (context, state) {
-            state as CartInitial;
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 32, left: 16, right: 16),
-              child: Column(
-                children: [
-                  _buildCartItemsList(state),
-                  _buildUsernameField(context, state),
-                  const SizedBox(height: 20),
-                  _buildPayButton(),
-                ],
-              ),
-            );
-          },
-        ),
+      body: BlocBuilder<CartCubit, CartState>(
+        bloc: serviceLocator.get<CartCubit>(),
+        builder: (context, state) {
+          state as CartInitial;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 32, left: 16, right: 16),
+            child: Column(
+              children: [
+                _buildCartItemsList(state),
+                _buildUsernameField(context, state),
+                const SizedBox(height: 20),
+                _buildPayButton(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -38,15 +36,13 @@ class CartScreen extends StatelessWidget {
   Expanded _buildCartItemsList(CartInitial state) {
     return Expanded(
       child: ListView.builder(
-        itemCount: state.cartItems?.length,
+        itemCount: state.cartItems.length,
         itemBuilder: (BuildContext context, int index) {
-          final item = state.cartItems?[index];
-          return item != null
-              ? ListTile(
-                  title: Text(item.keys.first.name),
-                  subtitle: Text('Quantity: ${item.values}'),
-                )
-              : Container();
+          final item = state.cartItems[index];
+          return ListTile(
+            title: Text(item.keys.first.name),
+            subtitle: Text('Quantity: ${item.values}'),
+          );
         },
       ),
     );
@@ -71,6 +67,6 @@ class CartScreen extends StatelessWidget {
   }
 
   AppButton _buildPayButton() {
-    return AppButton(title: "Pay", onPressed: ()=> null);
+    return AppButton(title: "Pay", onPressed: () => null);
   }
 }
