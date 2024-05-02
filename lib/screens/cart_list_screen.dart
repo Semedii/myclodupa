@@ -62,14 +62,20 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  TextFormField _buildUsernameField(BuildContext context, CartInitial state) {
-    return TextFormField(
-      initialValue: state.username,
-      onChanged: serviceLocator.get<CartCubit>().onUsernameChanged,
-      decoration: InputDecoration(
-          hintText: "User name",
-          border: _buildUsernameFieldBorder(),
-          focusedBorder: _buildUsernameFieldBorder()),
+  Column _buildUsernameField(BuildContext context, CartInitial state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          initialValue: state.username,
+          onChanged: serviceLocator.get<CartCubit>().onUsernameChanged,
+          decoration: InputDecoration(
+              hintText: "User name",
+              border: _buildUsernameFieldBorder(),
+              focusedBorder: _buildUsernameFieldBorder()),
+        ),
+        const Text("Please enter you username to continue")
+      ],
     );
   }
 
